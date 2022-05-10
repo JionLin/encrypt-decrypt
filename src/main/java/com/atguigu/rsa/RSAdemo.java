@@ -19,11 +19,18 @@ import java.security.spec.X509EncodedKeySpec;
  * @Description:
  */
 public class RSAdemo {
+
+
+    public static final String transformation0 = "RSA";
+    public static final String transformation1 = "RSA/ECB/PKCS1Padding";
+    public static final String transformation2 = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding";
+    public static final String transformation3 = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
+    public static final String transformation4 = "RSA/ECB/OAEPWithMD5AndMGF1Padding";
     public static void main(String[] args) throws Exception {
-        java.lang.String input = "硅谷12";
+         String input = "硅谷12";
 //        // 创建密钥对
 //        // KeyPairGenerator:密钥对生成器对象
-        java.lang.String algorithm = "RSA";
+        String algorithm = "RSA";
 //        // 读取私钥
         PrivateKey privateKey = getPrivateKey("a.pri", algorithm);
 //        System.out.println(privateKey);
@@ -50,32 +57,43 @@ public class RSAdemo {
         String privateEncodeString = Base64.encode(privateKeyEncoded);
         String publicEncodeString = Base64.encode(publicKeyEncoded);
         // 打印公钥和私钥
-//        System.out.println("privateEncodeString\t"+privateEncodeString);
-//        System.out.println("publicEncodeString\t"+publicEncodeString);
+        System.out.println("privateEncodeString\t"+privateEncodeString);
+        System.out.println("publicEncodeString\t"+publicEncodeString);
 //
 //
 //        String s = encryptRSA(algorithm, privateKey, input);
 //        System.out.println(s);
 //        String s1 = decryptRSA(algorithm, publicKey, s);
 //        System.out.println(s1);
-        String transformation1 = "RSA/ECB/PKCS1Padding";
-        String transformation2 = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding";
-        String transformation3 = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
+
         // 公钥加密
 
-        String jiami = encryptRSA(transformation1, publicKey, input);
-//        String jiami = "wqPDhTPCkH7DjWFww4oJdsOcw7Riw7tVYMO+asOlHi8/I0RbC8KdR33CrcKGwpRMawASw6vDnsKdbcOmw6TCgDRACWfCnMOLQ8KVcsORw654w5TCtsKSwo3CrATCu3k6ZUEKwpHCi8KiwrxrCC3DjcObT8Ouw79bFMKDwrJuS8KzwrJSM8ODwqXCpMOTdMKITTvCn17CscOhwpQGwpnCtFsOTxTClMKcw7XCtEFKw70iI1HCssOnw5nDtEDDscKWw74Awo9pdcK6XsKsQV/DlEPCmC/CnH0eT8Oxw5vCkQQnC0rCuMKLfRccwp1Se8Oww4FAw5HDusOAw4cVw6dGQg3DkCHCnsKPPh0Sw5VmEcKEw7dRwrLDlEdpwqrDoMKOw7ZlewfDpgtyE8Oww67CksONwoUMwp/ClsK4wpHDogpjw7A9ZsOgScKJw4rDuBfDvcKbQcKVwpbCtsKFSMKtBVvDh8OhVU0DwpfDlcO7KsOmMsOoNU3CqSPDhsOjw77Cu8OeLxU=";
-        System.out.println(jiami);
-        System.out.println(jiami.length());
+//        String jiami = encryptRSA(transformation4, publicKey, input);
+//        String jiami="ZMOfwoZAWcOFw7AiKkPCt8O2woQHwrURQ3Y/wpE6HcOuB8KZPcKrBxnCkcO0A1vDr8OkwqrDpSIwNMKcwprDmsKyF1pqAsK4wrMSw4vCgk/Cg37Ct8O7IsK9wotwwrp7";
+////        System.out.println(jiami);
+//        System.out.println(jiami.length());
 
-//        String jiemi = decryptRSA(transformation1, privateKey, jiami);
+//        String jiemi = decryptRSA(transformation4, privateKey, jiami);
 //        System.out.println(jiemi);
 
-        String jiemi = RSAdemo2.decryptRSA2(jiami, privateEncodeString);
-        System.out.println(jiemi);
 
+//        String jiemi = RSAdemo3.decrypt1(jiami, privateKey);
+//        System.out.println(jiemi);
+//        String jiemi = RSAdemo2.decryptRSA2(jiami, privateEncodeString);
+//        System.out.println(jiemi);
+
+//        String jiemi = RSAdemo2.decrypt(jiami, privateKey);
+//        System.out.println(jiemi);
+
+//        String jiami = RSAHelper.encipher(input, publicEncodeString);
+//        System.out.println(jiami);
+//
 //        String jiemi = RSAHelper.decipher(jiami, privateEncodeString);
 //        System.out.println(jiemi);
+
+//        String decrypt = RSAEncrypt.decrypt(jiami, privateEncodeString);
+//        System.out.println(decrypt);
+
 
     }
 
@@ -132,7 +150,6 @@ public class RSAdemo {
         // 使用base64进行转码
         byte[] decode = Base64.decode(encrypted);
 
-
         // 使用私钥进行解密
         byte[] bytes1 = cipher.doFinal(decode);
         return new String(bytes1);
@@ -173,6 +190,7 @@ public class RSAdemo {
      */
     private static void generateKeyToFile(String algorithm, String pubPath, String priPath) throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
+        keyPairGenerator.initialize(512,new SecureRandom());
         // 生成密钥对
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
         // 生成私钥

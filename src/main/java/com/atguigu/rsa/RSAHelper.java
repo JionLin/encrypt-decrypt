@@ -25,6 +25,14 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class RSAHelper {
 
+    public static final String transformation0 = "RSA";
+    public static final String transformation1 = "RSA/ECB/PKCS1Padding";
+    public static final String transformation2 = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding";
+    public static final String transformation3 = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
+    public static final String transformation4 = "RSA/ECB/OAEPWithMD5AndMGF1Padding";
+
+
+
     public static final String PUBLIC_KEY_VALUES = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0bb7yxuvRIWOUxlTbTXE\n" +
             "cKX5f4Q6+BBOf1fYJKic9l6Wf1QPmyt6ML7PywaPH861D7eYoQl0bGNK2fKsgcAG\n" +
             "ZzObG5CpmP8ESnSzqcjltdAgx+neCZQy7yUmXUIhpBEQMN80CNYoasOxeZTdPh2w\n" +
@@ -61,7 +69,8 @@ public class RSAHelper {
     /**
      * RSA密钥长度必须是64的倍数，在512~65536之间。默认是1024
      */
-    public static final int KEY_SIZE = 2048;
+//    public static final int KEY_SIZE = 2048;
+    public static final int KEY_SIZE = 512;
 
     /**
      * 生成公钥、私钥对(keysize=1024)
@@ -183,16 +192,16 @@ public class RSAHelper {
 
             // Cipher负责完成加密或解密工作，基于RSA
 //            Cipher cipher = Cipher.getInstance("RSA");
-            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher cipher = Cipher.getInstance(transformation1);
 
             // 根据公钥，对Cipher对象进行初始化
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] resultBytes = null;
 
-            if (segmentSize > 0)
-                resultBytes = cipherDoFinal(cipher, srcBytes, segmentSize); //分段加密
-            else
-                resultBytes = cipher.doFinal(srcBytes);
+            if (segmentSize > 0){
+                resultBytes = cipherDoFinal(cipher, srcBytes, segmentSize);} //分段加密
+            else{
+                resultBytes = cipher.doFinal(srcBytes);}
             String base64Str = Base64Utils.encodeToString(resultBytes);
             return base64Str;
         } catch (Exception e) {
@@ -214,8 +223,8 @@ public class RSAHelper {
      */
     public static byte[] cipherDoFinal(Cipher cipher, byte[] srcBytes, int segmentSize)
             throws IllegalBlockSizeException, BadPaddingException, IOException {
-        if (segmentSize <= 0)
-            throw new RuntimeException("分段大小必须大于0");
+        if (segmentSize <= 0){
+            throw new RuntimeException("分段大小必须大于0");}
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         int inputLen = srcBytes.length;
         int offSet = 0;
@@ -281,14 +290,14 @@ public class RSAHelper {
             byte[] srcBytes = Base64Utils.decodeFromString(contentBase64);
             // Cipher负责完成加密或解密工作，基于RSA
 //            Cipher deCipher = Cipher.getInstance("RSA");
-            Cipher deCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher deCipher = Cipher.getInstance(transformation1);
             // 根据公钥，对Cipher对象进行初始化
             deCipher.init(Cipher.DECRYPT_MODE, key);
             byte[] decBytes = null;//deCipher.doFinal(srcBytes);
-            if (segmentSize > 0)
-                decBytes = cipherDoFinal(deCipher, srcBytes, segmentSize); //分段加密
-            else
-                decBytes = deCipher.doFinal(srcBytes);
+            if (segmentSize > 0){
+                decBytes = cipherDoFinal(deCipher, srcBytes, segmentSize);} //分段加密
+            else{
+                decBytes = deCipher.doFinal(srcBytes);}
 
             String decrytStr = new String(decBytes);
             return decrytStr;
@@ -338,5 +347,19 @@ public class RSAHelper {
         public void setKeySize(int keySize) {
             this.keySize = keySize;
         }
+    }
+
+    public static void main(String[] args) {
+        String content="wocaonimei";
+        String pubKey= "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAId2P5T9ltHFxNK8ndg3oAFDluvTb3BsHGTBOSpICPfyMZsPMbuJw5R2xuUnRiVR2Zja3o8OCwzYg5owXWya9skCAwEAAQ==";
+        String priKey="MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAh3Y/lP2W0cXE0ryd2DegAUOW69NvcGwcZME5KkgI9/Ixmw8xu4nDlHbG5SdGJVHZmNrejw4LDNiDmjBdbJr2yQIDAQABAkBz+HVIra3wG3t820PbNwwB6QaNEO/H9JZ+X7n8C7253t1NOlus2CalvewjrWl6ZbYojcwfJKL6sg6Q+JHp+XNdAiEAvqZKPVoZt1ZlFvJDomITiBTUBEwfFfPG4ZAEeZBjXS8CIQC15S4cocXPk7/n47KLUjOPw3ncm2H26+cGclU7uyGdhwIgOUdowqoRU93nHU/INj9VMutfD7N3G3dUZ2yHi6Zv1A0CIQCRCYJAQFo7j0NpQu1eHBiTHLoxxxBRVH8ta8M80pUWRwIgfdFt2vuMKDYhBJzDebiR38UjPRNPV+n66zJ48q0Te0o=";
+//        String jiami="ZMOfwoZAWcOFw7AiKkPCt8O2woQHwrURQ3Y/wpE6HcOuB8KZPcKrBxnCkcO0A1vDr8OkwqrDpSIwNMKcwprDmsKyF1pqAsK4wrMSw4vCgk/Cg37Ct8O7IsK9wotwwrp7";
+        //私钥解密
+        String jiami = encipher(content, pubKey);
+
+        System.out.println(jiami);
+        String jiemi = decipher(jiami, priKey);
+        System.out.println(jiemi);
+
     }
 }
