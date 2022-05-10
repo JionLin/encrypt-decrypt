@@ -21,10 +21,10 @@ public class SignatureDemo {
         PublicKey publicKey = RSAdemo.getPublicKey("a.pub","RSA");
         PrivateKey privateKey = RSAdemo.getPrivateKey("a.pri","RSA");
         // 获取数字签名
-        String signaturedData = getSignature(a, "sha256withrsa", privateKey);
+        String signaturedData = getSignature(a, "sha1withrsa", privateKey);
         System.out.println(signaturedData);
         // 校验签名
-        boolean b = verifySignature(a, "sha256withrsa", publicKey, signaturedData);
+        boolean b = verifySignature(a, "sha1withrsa", publicKey, signaturedData);
         System.out.println(b);
 
     }
