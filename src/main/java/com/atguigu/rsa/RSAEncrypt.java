@@ -34,11 +34,16 @@ public class RSAEncrypt {
         genKeyPair();
         //加密字符串
         String message = "df77382011";
-        System.out.println("随机生成的公钥为:" + keyMap.get(0));
-        System.out.println("随机生成的私钥为:" + keyMap.get(1));
+//        System.out.println("随机生成的公钥为:" + keyMap.get(0));
+//        System.out.println("随机生成的私钥为:" + keyMap.get(1));
+        String gongyao="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+PAirmC71tOy/c+hW+w6r3dXoGjl9wSjwi28T4qBVT5Kmqudmzucdzb47aUm/vlpOd9kthfkg6bOgBIlNFJw2Q0CzGbOeqEC0TqYHnP8bDZ5q/HSstQxnf8jmbHe/MhOw7iVc6mYZ5WUhB5z6S42vLi82SF7lTqY3L25yWtx47wIDAQAB";
+        String siyao="MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAL48CKuYLvW07L9z6Fb7Dqvd1egaOX3BKPCLbxPioFVPkqaq52bO5x3NvjtpSb++Wk532S2F+SDps6AEiU0UnDZDQLMZs56oQLROpgec/xsNnmr8dKy1DGd/yOZsd78yE7DuJVzqZhnlZSEHnPpLja8uLzZIXuVOpjcvbnJa3HjvAgMBAAECgYEAu6dsxhgw+p+mipVDs8mkB1WlFHgKDkrkn6RrxingD0eXWmFsMrYWtgemh+Sso0CaxJzk10s5HYZrcoYHCsox7H911w75eDC4YlpR6pW0HVR7hQSplAkz4rQG2EYeLU6ZbqFKj4zg2EyuFW0b7volYPSHAGKFy069O+SiKUuM78ECQQD0XDWzolh8cTC/rwQwUuefQunYyjGnHGaiyJP5tNR4z8OW+SLA8I2lAfKdoQvvS4Jtt0IM2bH8Gwv0C/ECcvUrAkEAx0vNPjaAIq9IsA2ElRGgNxr/4yQQGCN3eIIwoHsOBvKmLZrZCRzzweYKOUGLwCA76ywgStQfQGOniLCaUVKxTQJAHR3TpEjm5EUUevKevCdUxAxUEuncyr2+mQzvXOSoIJEZDCc5deXz6sJ1p0SmSGgl7W7VpvRVmeWbIgQ+Pn12KwJBAMAzloj9Pq40pcFECC1LhlweqdGBIhRlf/60b/kVM/33XdR1lgJ37Y1+MTXuxLxRWff/4lTIJiuO8C+fQfRT77ECQCXkqdI3zy5PQu966S4Z1UoECDqFmW7KWjKWLqMw1pF9P7+PlbwI43yGTdHQVwnJxu4FGOZ0bjkUVrakQFdy5CA=";
         String messageEn = encrypt(message,keyMap.get(0));
-        System.out.println(message + "\t加密后的字符串为:" + messageEn);
-        String messageDe = decrypt(messageEn,keyMap.get(1));
+        //加密后内容
+        messageEn ="ecKPw6QvTkE+dcKnwqMbXlPDrMKawrjDgcOowqnDqsO8w4HDp8KpwqjDiHoAwovDgnwsTAjCkgHDsBpOUUnDoMOEVFsdVMOswpYJFcKJw6IYdyEYwo7DrsO7w7UUwokDNcKHT8KPfljDvsOCLRTCocOlAxjDkMOsw43DkcOkbG8uwrs2KsKjCWszw4B6G8OVw5nCjMOawrwiw54Ow6dTBTxnwobCh0/Dj8KLA2tRSsO+wqMZUmBRw43DkQnDuw==";
+        System.out.println(message + "\t加密后的字符串为:" + messageEn.length());
+//        String messageDe = decrypt(messageEn,keyMap.get(1));
+        String messageDe = decrypt(messageEn,siyao);
         System.out.println("还原后的字符串为:" + messageDe);
     }
 
@@ -78,8 +83,7 @@ public class RSAEncrypt {
         byte[] decoded = Base64.decodeBase64(publicKey);
         RSAPublicKey pubKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(decoded));
         //RSA加密
-
-        Cipher cipher = Cipher.getInstance(transformation4);
+        Cipher cipher = Cipher.getInstance(transformation2);
         cipher.init(Cipher.ENCRYPT_MODE, pubKey);
         String outStr = Base64.encodeBase64String(cipher.doFinal(str.getBytes("UTF-8")));
         return outStr;
@@ -103,7 +107,7 @@ public class RSAEncrypt {
         byte[] decoded = Base64.decodeBase64(privateKey);
         RSAPrivateKey priKey = (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(decoded));
         //RSA解密
-        Cipher cipher = Cipher.getInstance(transformation4);
+        Cipher cipher = Cipher.getInstance(transformation2);
         cipher.init(Cipher.DECRYPT_MODE, priKey);
         String outStr = new String(cipher.doFinal(inputByte));
         return outStr;

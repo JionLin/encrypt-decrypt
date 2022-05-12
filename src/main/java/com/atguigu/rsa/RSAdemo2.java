@@ -42,7 +42,7 @@ public class RSAdemo2 {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
-            Cipher cipher = Cipher.getInstance(transformation4);
+            Cipher cipher = Cipher.getInstance(transformation0);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             int allDecodeByteLen = 0;
             for (int i = 0; i < encodePartLen; i++) {

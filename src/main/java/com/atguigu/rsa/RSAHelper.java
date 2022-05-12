@@ -70,7 +70,7 @@ public class RSAHelper {
      * RSA密钥长度必须是64的倍数，在512~65536之间。默认是1024
      */
 //    public static final int KEY_SIZE = 2048;
-    public static final int KEY_SIZE = 512;
+    public static final int KEY_SIZE = 1024;
 
     /**
      * 生成公钥、私钥对(keysize=1024)
@@ -290,7 +290,7 @@ public class RSAHelper {
             byte[] srcBytes = Base64Utils.decodeFromString(contentBase64);
             // Cipher负责完成加密或解密工作，基于RSA
 //            Cipher deCipher = Cipher.getInstance("RSA");
-            Cipher deCipher = Cipher.getInstance(transformation1);
+            Cipher deCipher = Cipher.getInstance(transformation0);
             // 根据公钥，对Cipher对象进行初始化
             deCipher.init(Cipher.DECRYPT_MODE, key);
             byte[] decBytes = null;//deCipher.doFinal(srcBytes);

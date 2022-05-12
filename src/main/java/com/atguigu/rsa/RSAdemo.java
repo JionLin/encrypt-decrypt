@@ -50,17 +50,19 @@ public class RSAdemo {
 //        // 生成公钥
 //        PublicKey publicKey = keyPair.getPublic();
         // 获取私钥的字节数组
-        byte[] privateKeyEncoded = privateKey.getEncoded();
-        // 获取公钥字节数组
-        byte[] publicKeyEncoded = publicKey.getEncoded();
-//        // 使用base64进行编码
-        String privateEncodeString = Base64.encode(privateKeyEncoded);
-        String publicEncodeString = Base64.encode(publicKeyEncoded);
-        // 打印公钥和私钥
-        System.out.println("privateEncodeString\t"+privateEncodeString);
-        System.out.println("publicEncodeString\t"+publicEncodeString);
+//        byte[] privateKeyEncoded = privateKey.getEncoded();
+//        // 获取公钥字节数组
+//        byte[] publicKeyEncoded = publicKey.getEncoded();
+////        // 使用base64进行编码
+//        String privateEncodeString = Base64.encode(privateKeyEncoded);
+//        String publicEncodeString = Base64.encode(publicKeyEncoded);
+//        // 打印公钥和私钥
+//        System.out.println("privateEncodeString\t"+privateEncodeString);
+//        System.out.println("publicEncodeString\t"+publicEncodeString);
 //
 //
+
+
 //        String s = encryptRSA(algorithm, privateKey, input);
 //        System.out.println(s);
 //        String s1 = decryptRSA(algorithm, publicKey, s);
@@ -79,8 +81,11 @@ public class RSAdemo {
 
 //        String jiemi = RSAdemo3.decrypt1(jiami, privateKey);
 //        System.out.println(jiemi);
-//        String jiemi = RSAdemo2.decryptRSA2(jiami, privateEncodeString);
-//        System.out.println(jiemi);
+        String privateEncodeString="MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAL48CKuYLvW07L9z6Fb7Dqvd1egaOX3BKPCLbxPioFVPkqaq52bO5x3NvjtpSb++Wk532S2F+SDps6AEiU0UnDZDQLMZs56oQLROpgec/xsNnmr8dKy1DGd/yOZsd78yE7DuJVzqZhnlZSEHnPpLja8uLzZIXuVOpjcvbnJa3HjvAgMBAAECgYEAu6dsxhgw+p+mipVDs8mkB1WlFHgKDkrkn6RrxingD0eXWmFsMrYWtgemh+Sso0CaxJzk10s5HYZrcoYHCsox7H911w75eDC4YlpR6pW0HVR7hQSplAkz4rQG2EYeLU6ZbqFKj4zg2EyuFW0b7volYPSHAGKFy069O+SiKUuM78ECQQD0XDWzolh8cTC/rwQwUuefQunYyjGnHGaiyJP5tNR4z8OW+SLA8I2lAfKdoQvvS4Jtt0IM2bH8Gwv0C/ECcvUrAkEAx0vNPjaAIq9IsA2ElRGgNxr/4yQQGCN3eIIwoHsOBvKmLZrZCRzzweYKOUGLwCA76ywgStQfQGOniLCaUVKxTQJAHR3TpEjm5EUUevKevCdUxAxUEuncyr2+mQzvXOSoIJEZDCc5deXz6sJ1p0SmSGgl7W7VpvRVmeWbIgQ+Pn12KwJBAMAzloj9Pq40pcFECC1LhlweqdGBIhRlf/60b/kVM/33XdR1lgJ37Y1+MTXuxLxRWff/4lTIJiuO8C+fQfRT77ECQCXkqdI3zy5PQu966S4Z1UoECDqFmW7KWjKWLqMw1pF9P7+PlbwI43yGTdHQVwnJxu4FGOZ0bjkUVrakQFdy5CA=";
+        String jiami="ABnoYfqV1i2aFSAjlHeGE+B+o68B2cljyN9t4xlftIzkGxcmY9OUg7NDJ6+pa6/jHYD7bD+7emTOCC+C2b7YrKQKlwCPLrOfb1UKxGzbRRFa8JnHWV8GhPhXwZF8ZJwH0Etq1Efgbthm0+IRJhPJCKjKcDhtiiBdcHQ3zg+CucY=";
+        System.out.println(jiami.length());
+        String jiemi = RSAHelper.decipher(jiami, privateEncodeString);
+        System.out.println(jiemi);
 
 //        String jiemi = RSAdemo2.decrypt(jiami, privateKey);
 //        System.out.println(jiemi);
